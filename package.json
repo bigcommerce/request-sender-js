@@ -1,0 +1,56 @@
+{
+  "name": "@bigcommerce/request-sender",
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
+  "engines": {
+    "node": "^6.10.0",
+    "yarn": "^0.27.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bigcommerce/request-sender-js.git"
+  },
+  "author": "BigCommerce",
+  "bugs": {
+    "url": "https://github.com/bigcommerce/request-sender-js/issues"
+  },
+  "homepage": "https://github.com/bigcommerce/request-sender-js",
+  "scripts": {
+    "prebuild": "yarn lint && yarn test",
+    "build": "yarn compile",
+    "precompile": "rm -rf lib",
+    "compile": "tsc --outDir lib",
+    "compile:watch": "yarn compile -- --watch",
+    "lint": "eslint src --config eslintrc.json",
+    "prerelease": "git fetch --tags && yarn validate-dependencies && yarn validate-commits && yarn build",
+    "release": "git add dist lib && standard-version -a",
+    "test": "jest --config jest-config.js",
+    "test:coverage": "yarn test -- --coverage",
+    "test:series": "yarn test -- --runInBand",
+    "test:watch": "yarn test -- --watch",
+    "travis": "yarn lint && yarn test:series --  --coverage",
+    "validate-commits": "validate-commits",
+    "validate-dependencies": "yarn install --check-files --frozen-lockfile"
+  },
+  "dependencies": {
+    "is-promise": "^2.1.0",
+    "js-cookie": "^2.1.4",
+    "query-string": "^5.0.0",
+    "tslib": "^1.8.0"
+  },
+  "devDependencies": {
+    "eslint": "2.8.0",
+    "eslint-config-airbnb": "6.0.2",
+    "eslint-plugin-react": "4.1.0",
+    "jest": "^21.2.1",
+    "standard-version": "^4.2.0",
+    "ts-jest": "^21.2.3",
+    "ts-loader": "^3.2.0",
+    "typescript": "^2.6.2",
+    "typescript-eslint-parser": "^9.0.1",
+    "validate-commits": "git+ssh://git@github.com/bigcommerce-labs/validate-commits.git#1.1.0"
+  }
+}
