@@ -1,6 +1,7 @@
 {
   "name": "@bigcommerce/request-sender",
   "version": "0.0.0",
+  "description": "HTTP request client for browsers",
   "main": "lib/index.js",
   "files": [
     "lib/"
