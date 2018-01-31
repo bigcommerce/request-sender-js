@@ -13,11 +13,11 @@ const requestSender = createRequestSender();
 
 // GET request
 requestSender.get('/foobars')
-    .then(({ body }) => console.log(response.body));
+    .then(({ body }) => console.log(body));
 
 // POST request
 requestSender.post('/foobars', { body: { name: 'Foobar' } })
-    .then(({ body }) => console.log(response.body));
+    .then(({ body }) => console.log(body));
 ```
 
 To cancel a pending request
