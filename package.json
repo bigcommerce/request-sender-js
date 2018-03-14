@@ -7,8 +7,7 @@
     "lib/"
   ],
   "engines": {
-    "node": "^6.10.0",
-    "yarn": "^0.27.5"
+    "node": "^6.10.0"
   },
   "repository": {
     "type": "git",
