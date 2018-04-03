@@ -3,8 +3,10 @@
   "version": "0.1.1",
   "description": "HTTP request client for browsers",
   "main": "lib/index.js",
+  "typings": "index.d.ts",
   "files": [
-    "lib/"
+    "lib/",
+    "index.d.ts"
   ],
   "engines": {
     "node": "^6.10.0"
