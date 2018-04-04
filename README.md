@@ -121,3 +121,7 @@ yarn release
 ```
 
 For more commands, please see `package.json`
+
+## License
+
+MIT
