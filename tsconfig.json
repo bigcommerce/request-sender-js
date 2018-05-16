@@ -17,9 +17,5 @@
     "include": [
         "src/**/*.js",
         "src/**/*.ts"
-    ],
-    "exclude": [
-        "src/**/*.*.js",
-        "src/**/*.*.ts"
     ]
 }

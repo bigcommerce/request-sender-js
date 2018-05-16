@@ -111,13 +111,13 @@ Some useful commands
 
 ```sh
 # To test
-yarn test
+npm test
 
 # To lint
-yarn lint
+npm run lint
 
 # To release
-yarn release
+npm run release
 ```
 
 For more commands, please see `package.json`
