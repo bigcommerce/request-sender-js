@@ -5,6 +5,7 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
+        "inlineSources": true,
         "moduleResolution": "node",
         "removeComments": true,
         "skipLibCheck": true,
