@@ -5,20 +5,20 @@ import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
 
 describe('RequestSender', () => {
-    let payloadTransformer;
-    let request;
-    let requestFactory;
-    let requestSender;
-    let url;
+    let payloadTransformer: PayloadTransformer;
+    let request: XMLHttpRequest;
+    let requestFactory: RequestFactory;
+    let requestSender: RequestSender;
+    let url: string;
 
     beforeEach(() => {
         url = 'http://foobar/v1/endpoint';
         payloadTransformer = new PayloadTransformer();
         requestFactory = new RequestFactory();
-        request = {
-            abort: jest.fn(),
-            send: jest.fn(),
-        };
+        request = new XMLHttpRequest();
+
+        jest.spyOn(request, 'abort');
+        jest.spyOn(request, 'send');
 
         jest.spyOn(cookie, 'get');
         jest.spyOn(requestFactory, 'createRequest').mockReturnValue(request);
@@ -79,7 +79,7 @@ describe('RequestSender', () => {
         });
 
         it('creates a HTTP request with CSRF token if it exists', () => {
-            cookie.get.mockImplementation(key => key === 'XSRF-TOKEN' ? 'abc' : undefined);
+            jest.spyOn(cookie, 'get').mockImplementation(key => key === 'XSRF-TOKEN' ? 'abc' : undefined);
 
             requestSender.sendRequest(url);
 
@@ -107,12 +107,13 @@ describe('RequestSender', () => {
 
         it('resolves with the response of the request', () => {
             const response = getResponse({ message: 'foobar' });
+            const event = new Event('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
             const promise = requestSender.sendRequest(url);
 
-            request.onload();
+            request.onload(event);
 
             expect(promise).resolves.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -120,6 +121,7 @@ describe('RequestSender', () => {
 
         it('rejects with the response of the request if the server returns an error', () => {
             const response = getErrorResponse({ message: 'foobar' });
+            const event = new Event('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -128,7 +130,7 @@ describe('RequestSender', () => {
                 method: 'POST',
             });
 
-            request.onload();
+            request.onload(event);
 
             expect(promise).rejects.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -136,6 +138,7 @@ describe('RequestSender', () => {
 
         it('rejects with the response of the request if it fails', () => {
             const response = getTimeoutResponse();
+            const event = new ErrorEvent('error');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -144,7 +147,7 @@ describe('RequestSender', () => {
                 method: 'POST',
             });
 
-            request.onerror();
+            request.onerror(event);
 
             expect(promise).rejects.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -152,6 +155,7 @@ describe('RequestSender', () => {
 
         it('aborts the request when resolving the `timeout` promise', async () => {
             const response = getTimeoutResponse();
+            const event = new Event('abort');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -160,7 +164,7 @@ describe('RequestSender', () => {
 
             await timeout;
 
-            request.onabort();
+            request.onabort(event);
 
             expect(promise).rejects.toEqual(response);
             expect(request.abort).toHaveBeenCalled();

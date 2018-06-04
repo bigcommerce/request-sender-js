@@ -1,13 +1,14 @@
 import RequestFactory from './request-factory';
+import Timeout from './timeout';
 
 describe('RequestFactory', () => {
-    let requestFactory;
-    let url;
+    let requestFactory: RequestFactory;
+    let url: string;
 
     beforeEach(() => {
         url = 'http://foobar/v1/endpoint';
 
-        global.XMLHttpRequest = function XMLHttpRequestMock() {
+        (<any>global).XMLHttpRequest = function XMLHttpRequestMock() {
             this.open = jest.fn();
             this.setRequestHeader = jest.fn();
         };
@@ -31,7 +32,7 @@ describe('RequestFactory', () => {
                     'Accept': 'application/json, text/plain, */*',
                     'Content-Type': 'application/json',
                 },
-            });
+            } as any);
 
             expect(xhr.withCredentials).toEqual(true);
             expect(xhr.timeout).toEqual(2000);

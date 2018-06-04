@@ -13,7 +13,7 @@
         "strict": true,
         "strictNullChecks": false,
         "stripInternal": true,
-        "target": "es5"
+        "target": "es2015"
     },
     "include": [
         "src/**/*.js",

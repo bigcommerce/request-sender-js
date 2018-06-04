@@ -1,32 +1,26 @@
-import * as isPromise from 'is-promise';
+import { CookiesStatic } from 'js-cookie';
 import { merge } from 'lodash';
+import isPromise from './is-promise';
+import PayloadTransformer from './payload-transformer';
+import RequestFactory from './request-factory';
+import { RequestOptions } from './request-options';
+import { Response } from './response';
 import Timeout from './timeout';
 
 export default class RequestSender {
-    /**
-     * @constructor
-     * @param {RequestFactory} requestFactory
-     * @param {PayloadTransformer} payloadTransformer
-     * @param {Cookie} cookie
-     */
-    constructor(requestFactory, payloadTransformer, cookie) {
-        this._requestFactory = requestFactory;
-        this._payloadTransformer = payloadTransformer;
-        this._cookie = cookie;
-    }
+    constructor(
+        private _requestFactory: RequestFactory,
+        private _payloadTransformer: PayloadTransformer,
+        private _cookie: CookiesStatic
+    ) { }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    sendRequest(url, options = {}) {
+    sendRequest(url: string, options?: RequestOptions): Promise<Response> {
         const requestOptions = this._mergeDefaultOptions(options);
         const request = this._requestFactory.createRequest(url, requestOptions);
 
         return new Promise((resolve, reject) => {
             const requestHandler = () => {
-                const response = this._payloadTransformer.toResponse(request);
+                const response: Response = this._payloadTransformer.toResponse(request);
 
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response);
@@ -48,63 +42,33 @@ export default class RequestSender {
             if (isPromise(requestOptions.timeout)) {
                 requestOptions.timeout.then(() => request.abort());
             }
-
+          
             request.send(this._payloadTransformer.toRequestBody(requestOptions));
         });
     }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    get(url, options = {}) {
+    get(url: string, options?: RequestOptions): Promise<Response> {
         return this.sendRequest(url, { ...options, method: 'GET' });
     }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    post(url, options = {}) {
+    post(url: string, options?: RequestOptions): Promise<Response> {
         return this.sendRequest(url, { ...options, method: 'POST' });
     }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    put(url, options = {}) {
+    put(url: string, options?: RequestOptions): Promise<Response> {
         return this.sendRequest(url, { ...options, method: 'PUT' });
     }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    patch(url, options = {}) {
+    patch(url: string, options?: RequestOptions): Promise<Response> {
         return this.sendRequest(url, { ...options, method: 'PATCH' });
     }
 
-    /**
-     * @param {string} url
-     * @param {RequestOptions} [options={}]
-     * @return {Promise<any>}
-     */
-    delete(url, options = {}) {
+    delete(url: string, options?: RequestOptions): Promise<Response> {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 
-    /**
-     * @private
-     * @param {RequestOptions} options
-     * @return {RequestOptions}
-     */
-    _mergeDefaultOptions(options) {
-        const defaultOptions = {
+    _mergeDefaultOptions(options: RequestOptions = {}): RequestOptions {
+        const defaultOptions: Partial<RequestOptions> = {
             credentials: true,
             method: 'GET',
             headers: {

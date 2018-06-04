@@ -1,13 +1,10 @@
 import * as cookie from 'js-cookie';
+import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
-import PayloadTransformer from './payload-transformer';
 import Timeout from './timeout';
 
-/**
- * @return {RequestSender}
- */
-export function createRequestSender() {
+export function createRequestSender(): RequestSender {
     return new RequestSender(
         new RequestFactory(),
         new PayloadTransformer(),
@@ -15,10 +12,6 @@ export function createRequestSender() {
     );
 }
 
-/**
- * @param {number} [delay]
- * @return {Timeout}
- */
-export function createTimeout(delay) {
+export function createTimeout(delay: number): Timeout {
     return new Timeout(delay);
 }
