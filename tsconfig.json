@@ -6,6 +6,12 @@
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
         "inlineSources": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es6",
+            "scripthost"
+        ],
         "moduleResolution": "node",
         "removeComments": true,
         "skipLibCheck": true,

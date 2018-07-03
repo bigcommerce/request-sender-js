@@ -1,12 +1,9 @@
 import * as queryString from 'query-string';
+import { Headers } from './headers';
+import { RequestOptions } from './request-options';
 
 export default class RequestFactory {
-    /**
-     * @param {string} url
-     * @param {Object} [options={}]
-     * @returns {XMLHttpRequest}
-     */
-    createRequest(url, options = {}) {
+    createRequest(url: string, options: RequestOptions = {}): XMLHttpRequest {
         const xhr = new XMLHttpRequest();
 
         this._configureRequest(xhr, url, options);
@@ -14,14 +11,7 @@ export default class RequestFactory {
         return xhr;
     }
 
-    /**
-     * @private
-     * @param {XMLHttpRequest} xhr
-     * @param {string} url
-     * @param {RequestOptions} options
-     * @returns {void}
-     */
-    _configureRequest(xhr, url, options) {
+    _configureRequest(xhr: XMLHttpRequest, url: string, options: RequestOptions): void {
         xhr.open(options.method, this._formatUrl(url, options.params), true);
 
         this._configureRequestHeaders(xhr, options.headers);
@@ -35,13 +25,7 @@ export default class RequestFactory {
         }
     }
 
-    /**
-     * @private
-     * @param {XMLHttpRequest} xhr
-     * @param {Object} headers
-     * @return {void}
-     */
-    _configureRequestHeaders(xhr, headers) {
+    _configureRequestHeaders(xhr: XMLHttpRequest, headers: Headers): void {
         if (!headers) {
             return;
         }
@@ -51,13 +35,7 @@ export default class RequestFactory {
         });
     }
 
-    /**
-     * @private
-     * @param {string} url
-     * @param {Object} params
-     * @return {string}
-     */
-    _formatUrl(url, params) {
+    _formatUrl(url: string, params: Object): string {
         if (!params || Object.keys(params).length === 0) {
             return url;
         }

@@ -1,11 +1,11 @@
+import { Headers } from './headers';
+import { RequestOptions } from './request-options';
+import { Response } from './response';
+
 const JSON_CONTENT_TYPE_REGEXP = /application\/(\w+\+)?json/;
 
 export default class PayloadTransformer {
-    /**
-     * @param {RequestOptions} options
-     * @returns {any}
-     */
-    toRequestBody(options) {
+    toRequestBody(options: RequestOptions): any {
         const contentType = this._getHeader(options.headers, 'Content-Type');
 
         if (options.body && JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
@@ -15,13 +15,9 @@ export default class PayloadTransformer {
         return options.body;
     }
 
-    /**
-     * @param {XMLHttpRequest} xhr
-     * @returns {Response}
-     */
-    toResponse(xhr) {
+    toResponse(xhr: XMLHttpRequest): Response {
         const headers = this._parseResponseHeaders(xhr.getAllResponseHeaders());
-        const body = this._parseResponseBody('response' in xhr ? xhr.response : xhr.responseText, headers);
+        const body = this._parseResponseBody('response' in xhr ? xhr.response : (xhr as any).responseText, headers); // Using `responseText` to support legacy IE
 
         return {
             body,
@@ -31,13 +27,7 @@ export default class PayloadTransformer {
         };
     }
 
-    /**
-     * @private
-     * @param {string} body
-     * @param {Object} headers
-     * @return {any}
-     */
-    _parseResponseBody(body, headers) {
+    _parseResponseBody(body: string, headers: Headers): any {
         const contentType = this._getHeader(headers, 'Content-Type');
 
         if (body && JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
@@ -47,12 +37,7 @@ export default class PayloadTransformer {
         return body;
     }
 
-    /**
-     * @private
-     * @param {string} rawHeaders
-     * @return {Object}
-     */
-    _parseResponseHeaders(rawHeaders) {
+    _parseResponseHeaders(rawHeaders: string): Headers {
         const lines = rawHeaders ? rawHeaders.replace(/\r?\n[\t ]+/g, ' ').split(/\r?\n/) : [];
 
         return lines.reduce((headers, line) => {
@@ -70,13 +55,7 @@ export default class PayloadTransformer {
         }, {});
     }
 
-    /**
-     * @private
-     * @param {Object} headers
-     * @param {string} key
-     * @return {string}
-     */
-    _getHeader(headers, key) {
+    _getHeader(headers: Headers, key: string): string {
         if (!headers || !key) {
             return '';
         }

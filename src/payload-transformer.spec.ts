@@ -1,7 +1,8 @@
 import PayloadTransformer from './payload-transformer';
+import Timeout from './timeout';
 
 describe('PayloadTransformer', () => {
-    let payloadTransformer;
+    let payloadTransformer: PayloadTransformer;
 
     beforeEach(() => {
         payloadTransformer = new PayloadTransformer();
@@ -30,14 +31,14 @@ describe('PayloadTransformer', () => {
 
     describe('#toResponse()', () => {
         it('transforms input into a response object', () => {
-            const xhr = {
+            const xhr: XMLHttpRequest = {
                 getAllResponseHeaders: jest.fn(
                     () => `Content-Type:application/json\nContent-Language:en`
                 ),
                 response: '{ "message": "foobar" }',
                 status: 200,
-                statusText: 'OK',
-            };
+                statusText: 'OK',              
+            } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual({
                 body: { message: 'foobar' },
@@ -51,14 +52,14 @@ describe('PayloadTransformer', () => {
         });
 
         it('transforms error into a response object', () => {
-            const xhr = {
+            const xhr: XMLHttpRequest = {
                 getAllResponseHeaders: jest.fn(
                     () => `Content-Type:application/problem+json\nContent-Language:en`
                 ),
                 response: '{ "message": "foobar" }',
                 status: 400,
                 statusText: 'Bad request',
-            };
+            } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual({
                 body: { message: 'foobar' },
@@ -72,14 +73,12 @@ describe('PayloadTransformer', () => {
         });
 
         it('transforms failed XHR into a response object', () => {
-            const xhr = {
-                getAllResponseHeaders: jest.fn(
-                    () => undefined
-                ),
+            const xhr: XMLHttpRequest = {
+                getAllResponseHeaders: jest.fn(),
                 response: undefined,
                 status: 0,
                 statusText: undefined,
-            };
+            } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual({
                 body: undefined,
@@ -90,14 +89,14 @@ describe('PayloadTransformer', () => {
         });
 
         it('falls back to parsing `responseText` if `response` is not available', () => {
-            const xhr = {
+            const xhr: XMLHttpRequest = {
                 getAllResponseHeaders: jest.fn(
                     () => 'Content-Type:application/json'
                 ),
                 responseText: '{ "message": "foobar" }',
                 status: 200,
                 statusText: 'OK',
-            };
+            } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual(expect.objectContaining({
                 body: { message: 'foobar' },
@@ -105,14 +104,14 @@ describe('PayloadTransformer', () => {
         });
 
         it('does not transform response body into JSON if it is not JSON', () => {
-            const xhr = {
+            const xhr: XMLHttpRequest = {
                 getAllResponseHeaders: jest.fn(
                     () => 'Content-Type:text/plain'
                 ),
                 response: '{ "message": "foobar" }',
                 status: 200,
                 statusText: 'OK',
-            };
+            } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual(expect.objectContaining({
                 body: '{ "message": "foobar" }',
