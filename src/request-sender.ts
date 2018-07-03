@@ -20,7 +20,7 @@ export default class RequestSender {
 
         return new Promise((resolve, reject) => {
             const requestHandler = () => {
-                const response: Response = this._payloadTransformer.toResponse(request);
+                const response = this._payloadTransformer.toResponse(request);
 
                 if (response.status >= 200 && response.status < 300) {
                     resolve(response);
@@ -42,7 +42,7 @@ export default class RequestSender {
             if (isPromise(requestOptions.timeout)) {
                 requestOptions.timeout.then(() => request.abort());
             }
-          
+
             request.send(this._payloadTransformer.toRequestBody(requestOptions));
         });
     }

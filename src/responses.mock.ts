@@ -1,4 +1,4 @@
-import { Headers } from './header';
+import { Headers } from './headers';
 import { Response } from './response';
 
 export function getResponse(

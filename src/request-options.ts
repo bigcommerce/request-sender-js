@@ -1,4 +1,4 @@
-import { Headers } from './header';
+import { Headers } from './headers';
 import Timeout from './timeout';
 
 export interface RequestOptions {

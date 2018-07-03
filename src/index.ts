@@ -12,6 +12,6 @@ export function createRequestSender(): RequestSender {
     );
 }
 
-export function createTimeout(delay: number): Timeout {
+export function createTimeout(delay?: number): Timeout {
     return new Timeout(delay);
 }

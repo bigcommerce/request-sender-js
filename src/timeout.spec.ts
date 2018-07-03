@@ -23,7 +23,7 @@ describe('Timeout', () => {
     });
 
     it('does not trigger callback again after completion', (done) => {
-        const timeout: Timeout = new Timeout();
+        const timeout = new Timeout();
         const callback = jest.fn();
 
         timeout.onComplete(callback);
@@ -37,7 +37,7 @@ describe('Timeout', () => {
     });
 
     it('triggers callback after delay', (done) => {
-        const timeout: Timeout = new Timeout(10);
+        const timeout = new Timeout(10);
         const callback = jest.fn();
 
         timeout.onComplete(callback);
@@ -52,7 +52,7 @@ describe('Timeout', () => {
     });
 
     it('does not trigger callback again after manual completion', (done) => {
-        const timeout: Timeout = new Timeout(10);
+        const timeout = new Timeout(10);
         const callback = jest.fn();
 
         timeout.onComplete(callback);

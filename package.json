@@ -44,6 +44,7 @@
     "tslib": "^1.8.0"
   },
   "devDependencies": {
+    "@bigcommerce/tslint-config": "^2.0.2",
     "@bigcommerce/validate-commits": "^2.0.2",
     "@types/jest": "^22.2.3",
     "@types/node": "^10.1.4",
@@ -54,6 +55,7 @@
     "standard-version": "^4.2.0",
     "ts-jest": "^21.2.3",
     "ts-loader": "^3.2.0",
+    "tslint": "^5.10.0",
     "typescript": "^2.6.2",
     "typescript-eslint-parser": "^9.0.1"
   }

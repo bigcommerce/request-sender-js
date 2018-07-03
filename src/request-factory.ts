@@ -1,5 +1,5 @@
 import * as queryString from 'query-string';
-import { Headers } from './header';
+import { Headers } from './headers';
 import { RequestOptions } from './request-options';
 
 export default class RequestFactory {
@@ -7,7 +7,7 @@ export default class RequestFactory {
         const xhr = new XMLHttpRequest();
 
         this._configureRequest(xhr, url, options);
-        
+
         return xhr;
     }
 

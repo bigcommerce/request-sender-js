@@ -1,4 +1,4 @@
-import { Headers } from './header';
+import { Headers } from './headers';
 
 export interface Response<T = any> {
     body: T;

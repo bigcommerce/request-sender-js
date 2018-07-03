@@ -1,4 +1,4 @@
-import { Headers } from './header';
+import { Headers } from './headers';
 import { RequestOptions } from './request-options';
 import { Response } from './response';
 
