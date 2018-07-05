@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/bigcommerce/request-sender-js/compare/v0.1.5...v0.1.6) (2018-07-05)
+
+
+### Bug Fixes
+
+* **core:** CHECKOUT-2899 Fix TS definition exports ([c50836c](https://github.com/bigcommerce/request-sender-js/commit/c50836c))
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/bigcommerce/request-sender-js/compare/v0.1.4...v0.1.5) (2018-07-05)
 
