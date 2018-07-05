@@ -13,9 +13,9 @@ export default class RequestSender {
         private _requestFactory: RequestFactory,
         private _payloadTransformer: PayloadTransformer,
         private _cookie: CookiesStatic
-    ) { }
+    ) {}
 
-    sendRequest(url: string, options?: RequestOptions): Promise<Response> {
+    sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         const requestOptions = this._mergeDefaultOptions(options);
         const request = this._requestFactory.createRequest(url, requestOptions);
 
@@ -48,23 +48,23 @@ export default class RequestSender {
         });
     }
 
-    get(url: string, options?: RequestOptions): Promise<Response> {
+    get<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'GET' });
     }
 
-    post(url: string, options?: RequestOptions): Promise<Response> {
+    post<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'POST' });
     }
 
-    put(url: string, options?: RequestOptions): Promise<Response> {
+    put<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PUT' });
     }
 
-    patch(url: string, options?: RequestOptions): Promise<Response> {
+    patch<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PATCH' });
     }
 
-    delete(url: string, options?: RequestOptions): Promise<Response> {
+    delete<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 
