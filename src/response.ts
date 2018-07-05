@@ -1,6 +1,6 @@
-import { Headers } from './headers';
+import Headers from './headers';
 
-export interface Response<T = any> {
+export default interface Response<T = any> {
     body: T;
     headers: Headers;
     status: number;

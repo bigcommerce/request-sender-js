@@ -1,6 +1,6 @@
-import { Headers } from './headers';
-import { RequestOptions } from './request-options';
-import { Response } from './response';
+import Headers from './headers';
+import RequestOptions from './request-options';
+import Response from './response';
 
 const JSON_CONTENT_TYPE_REGEXP = /application\/(\w+\+)?json/;
 

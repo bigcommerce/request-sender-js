@@ -1,5 +1,5 @@
-import { Headers } from './headers';
-import { Response } from './response';
+import Headers from './headers';
+import Response from './response';
 
 export function getResponse(
     body: any,

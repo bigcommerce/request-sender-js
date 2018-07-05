@@ -1,7 +1,7 @@
-import { Headers } from './headers';
+import Headers from './headers';
 import Timeout from './timeout';
 
-export interface RequestOptions {
+export default interface RequestOptions {
     body?: any;
     credentials?: boolean;
     headers?: Headers;

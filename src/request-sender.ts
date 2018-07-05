@@ -4,8 +4,8 @@ import { merge } from 'lodash';
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
-import { RequestOptions } from './request-options';
-import { Response } from './response';
+import RequestOptions from './request-options';
+import Response from './response';
 import Timeout from './timeout';
 
 export default class RequestSender {

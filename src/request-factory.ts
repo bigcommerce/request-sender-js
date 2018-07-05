@@ -1,7 +1,7 @@
 import * as queryString from 'query-string';
 
-import { Headers } from './headers';
-import { RequestOptions } from './request-options';
+import Headers from './headers';
+import RequestOptions from './request-options';
 
 export default class RequestFactory {
     createRequest(url: string, options?: RequestOptions): XMLHttpRequest {
