@@ -6,7 +6,7 @@ const JSON_CONTENT_TYPE_REGEXP = /application\/(\w+\+)?json/;
 
 export default class PayloadTransformer {
     toRequestBody(options: RequestOptions): any {
-        const contentType = this._getHeader(options.headers, 'Content-Type');
+        const contentType = options.headers ? this._getHeader(options.headers, 'Content-Type') : '';
 
         if (options.body && JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
             return JSON.stringify(options.body);
@@ -17,7 +17,12 @@ export default class PayloadTransformer {
 
     toResponse(xhr: XMLHttpRequest): Response {
         const headers = this._parseResponseHeaders(xhr.getAllResponseHeaders());
-        const body = this._parseResponseBody('response' in xhr ? xhr.response : (xhr as any).responseText, headers); // Using `responseText` to support legacy IE
+
+        // Using `responseText` to support legacy IE
+        const body = this._parseResponseBody(
+            'response' in xhr ? xhr.response : (xhr as any).responseText,
+            headers
+        );
 
         return {
             body,
@@ -27,7 +32,7 @@ export default class PayloadTransformer {
         };
     }
 
-    _parseResponseBody(body: string, headers: Headers): any {
+    private _parseResponseBody(body: string, headers: Headers): any {
         const contentType = this._getHeader(headers, 'Content-Type');
 
         if (body && JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
@@ -37,12 +42,12 @@ export default class PayloadTransformer {
         return body;
     }
 
-    _parseResponseHeaders(rawHeaders: string): Headers {
+    private _parseResponseHeaders(rawHeaders: string): Headers {
         const lines = rawHeaders ? rawHeaders.replace(/\r?\n[\t ]+/g, ' ').split(/\r?\n/) : [];
 
         return lines.reduce((headers, line) => {
             const parts = line.split(':');
-            const key = parts.shift().trim();
+            const key = (parts.shift() || '').trim();
 
             if (!key) {
                 return headers;
@@ -55,7 +60,7 @@ export default class PayloadTransformer {
         }, {});
     }
 
-    _getHeader(headers: Headers, key: string): string {
+    private _getHeader(headers: Headers, key: string): string {
         if (!headers || !key) {
             return '';
         }

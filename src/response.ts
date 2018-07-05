@@ -6,4 +6,3 @@ export interface Response<T = any> {
     status: number;
     statusText: string;
 }
-

@@ -9,12 +9,12 @@ export function getResponse(
 ): Response {
     return {
         body,
-        status,
-        statusText,
         headers: {
             'content-type': 'application/json',
             ...headers,
         },
+        status,
+        statusText,
     };
 }
 
@@ -26,12 +26,12 @@ export function getErrorResponse(
 ): Response {
     return {
         body,
-        status,
-        statusText,
         headers: {
             'content-type': 'application/json',
             ...headers,
         },
+        status,
+        statusText,
     };
 }
 

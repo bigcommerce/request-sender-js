@@ -1,5 +1,6 @@
 import { CookiesStatic } from 'js-cookie';
 import { merge } from 'lodash';
+
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
@@ -67,19 +68,19 @@ export default class RequestSender {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 
-    _mergeDefaultOptions(options: RequestOptions = {}): RequestOptions {
+    private _mergeDefaultOptions(options?: RequestOptions): RequestOptions {
         const defaultOptions: Partial<RequestOptions> = {
             credentials: true,
-            method: 'GET',
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                Accept: 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
             },
+            method: 'GET',
         };
 
         const csrfToken = this._cookie.get('XSRF-TOKEN');
 
-        if (csrfToken) {
+        if (csrfToken && defaultOptions.headers) {
             defaultOptions.headers['X-XSRF-TOKEN'] = csrfToken;
         }
 

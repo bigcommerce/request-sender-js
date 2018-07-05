@@ -1,5 +1,4 @@
 import RequestFactory from './request-factory';
-import Timeout from './timeout';
 
 describe('RequestFactory', () => {
     let requestFactory: RequestFactory;
@@ -8,7 +7,7 @@ describe('RequestFactory', () => {
     beforeEach(() => {
         url = 'http://foobar/v1/endpoint';
 
-        (<any>global).XMLHttpRequest = function XMLHttpRequestMock() {
+        (global as any).XMLHttpRequest = function XMLHttpRequestMock() {
             this.open = jest.fn();
             this.setRequestHeader = jest.fn();
         };
@@ -26,12 +25,12 @@ describe('RequestFactory', () => {
         it('configures XHR object with options', () => {
             const xhr = requestFactory.createRequest(url, {
                 credentials: true,
-                timeout: 2000,
-                method: 'GET',
                 headers: {
-                    'Accept': 'application/json, text/plain, */*',
+                    Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json',
                 },
+                method: 'GET',
+                timeout: 2000,
             } as any);
 
             expect(xhr.withCredentials).toEqual(true);
@@ -45,8 +44,8 @@ describe('RequestFactory', () => {
             const xhr = requestFactory.createRequest(url, {
                 method: 'GET',
                 params: {
-                    foobar: 'foobar',
                     bar: 'bar',
+                    foobar: 'foobar',
                 },
             });
 

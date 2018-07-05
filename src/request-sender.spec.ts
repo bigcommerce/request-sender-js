@@ -1,8 +1,9 @@
 import * as cookie from 'js-cookie';
-import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
+
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
+import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
 
 describe('RequestSender', () => {
     let payloadTransformer: PayloadTransformer;
@@ -32,7 +33,7 @@ describe('RequestSender', () => {
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 credentials: true,
                 headers: {
-                    'Accept': 'application/json, text/plain, */*',
+                    Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json',
                 },
                 method: 'GET',
@@ -44,7 +45,7 @@ describe('RequestSender', () => {
                 body: 'foobar',
                 credentials: false,
                 headers: {
-                    'Accept': 'text/plain',
+                    Accept: 'text/plain',
                     'Content-Type': 'text/plain',
                 },
                 method: 'POST',
@@ -69,8 +70,8 @@ describe('RequestSender', () => {
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 credentials: true,
                 headers: {
-                    'Accept': 'text/plain',
-                    'Authorization': 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
+                    Accept: 'text/plain',
+                    Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
                     'Content-Type': 'application/json',
                 },
                 method: 'POST',

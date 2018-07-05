@@ -1,5 +1,4 @@
 import PayloadTransformer from './payload-transformer';
-import Timeout from './timeout';
 
 describe('PayloadTransformer', () => {
     let payloadTransformer: PayloadTransformer;
@@ -37,14 +36,14 @@ describe('PayloadTransformer', () => {
                 ),
                 response: '{ "message": "foobar" }',
                 status: 200,
-                statusText: 'OK',              
+                statusText: 'OK',
             } as any;
 
             expect(payloadTransformer.toResponse(xhr)).toEqual({
                 body: { message: 'foobar' },
                 headers: {
-                    'content-type': 'application/json',
                     'content-language': 'en',
+                    'content-type': 'application/json',
                 },
                 status: 200,
                 statusText: 'OK',
@@ -64,8 +63,8 @@ describe('PayloadTransformer', () => {
             expect(payloadTransformer.toResponse(xhr)).toEqual({
                 body: { message: 'foobar' },
                 headers: {
-                    'content-type': 'application/problem+json',
                     'content-language': 'en',
+                    'content-type': 'application/problem+json',
                 },
                 status: 400,
                 statusText: 'Bad request',

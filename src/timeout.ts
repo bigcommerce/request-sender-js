@@ -1,15 +1,18 @@
 export default class Timeout {
-    private _timeoutToken?: number;
     private _promise: Promise<any>;
     private _resolve: () => void;
+    private _timeoutToken?: number;
 
     constructor(
         private _delay?: number
     ) {
-        this._promise = new Promise((resolve) => {
+        // tslint:disable-next-line:no-empty
+        this._resolve = () => {};
+
+        this._promise = new Promise(resolve => {
             this._resolve = resolve;
         });
-    } 
+    }
 
     onComplete(callback: () => void): void {
         this._promise.then(callback);
@@ -29,4 +32,3 @@ export default class Timeout {
         }
     }
 }
-
