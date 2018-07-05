@@ -17,10 +17,9 @@ describe('RequestSender', () => {
         requestFactory = new RequestFactory();
         request = new XMLHttpRequest();
 
-        jest.spyOn(request, 'abort');
-        jest.spyOn(request, 'send');
-
-        jest.spyOn(cookie, 'get');
+        jest.spyOn(request, 'abort').mockReturnValue(undefined);
+        jest.spyOn(request, 'send').mockReturnValue(undefined);
+        jest.spyOn(cookie, 'get').mockReturnValue(undefined);
         jest.spyOn(requestFactory, 'createRequest').mockReturnValue(request);
 
         requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
@@ -113,7 +112,9 @@ describe('RequestSender', () => {
 
             const promise = requestSender.sendRequest(url);
 
-            request.onload(event);
+            if (request.onload) {
+                request.onload(event);
+            }
 
             expect(promise).resolves.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -130,7 +131,9 @@ describe('RequestSender', () => {
                 method: 'POST',
             });
 
-            request.onload(event);
+            if (request.onload) {
+                request.onload(event);
+            }
 
             expect(promise).rejects.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -147,7 +150,9 @@ describe('RequestSender', () => {
                 method: 'POST',
             });
 
-            request.onerror(event);
+            if (request.onerror) {
+                request.onerror(event);
+            }
 
             expect(promise).rejects.toEqual(response);
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
@@ -164,7 +169,9 @@ describe('RequestSender', () => {
 
             await timeout;
 
-            request.onabort(event);
+            if (request.onabort) {
+                request.onabort(event);
+            }
 
             expect(promise).rejects.toEqual(response);
             expect(request.abort).toHaveBeenCalled();
