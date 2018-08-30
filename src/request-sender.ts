@@ -5,6 +5,7 @@ import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestOptions from './request-options';
+import RequestSenderOptions from './request-sender-options';
 import Response from './response';
 import Timeout from './timeout';
 
@@ -12,12 +13,13 @@ export default class RequestSender {
     constructor(
         private _requestFactory: RequestFactory,
         private _payloadTransformer: PayloadTransformer,
-        private _cookie: CookiesStatic
+        private _cookie: CookiesStatic,
+        private _options?: RequestSenderOptions
     ) {}
 
     sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         const requestOptions = this._mergeDefaultOptions(options);
-        const request = this._requestFactory.createRequest(url, requestOptions);
+        const request = this._requestFactory.createRequest(this._prependHost(url), requestOptions);
 
         return new Promise((resolve, reject) => {
             const requestHandler = () => {
@@ -85,5 +87,13 @@ export default class RequestSender {
         }
 
         return merge({}, defaultOptions, options);
+    }
+
+    private _prependHost(url: string): string {
+        if (!this._options || !this._options.host || /^https?:\/\//.test(url)) {
+            return url;
+        }
+
+        return `${this._options.host.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
     }
 }

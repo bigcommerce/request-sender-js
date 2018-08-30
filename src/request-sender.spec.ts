@@ -178,6 +178,42 @@ describe('RequestSender', () => {
             expect(request.abort).toHaveBeenCalled();
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
         });
+
+        it('prepends host to request URL', () => {
+            const options = { host: 'https://foobar.com/' };
+            const relativeUrl = '/api/endpoint';
+
+            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+
+            requestSender.sendRequest(relativeUrl);
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith('https://foobar.com/api/endpoint', {
+                credentials: true,
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET',
+            });
+        });
+
+        it('does not prepend host to request URL if it is not relative URL', () => {
+            const options = { host: 'https://foobar.com/' };
+            const absoluteUrl = 'https://helloworld.com/api/endpoint';
+
+            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+
+            requestSender.sendRequest(absoluteUrl);
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith('https://helloworld.com/api/endpoint', {
+                credentials: true,
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+                method: 'GET',
+            });
+        });
     });
 
     describe('#get()', () => {
