@@ -34,9 +34,27 @@ describe('RequestSender', () => {
                 credentials: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json',
                 },
                 method: 'GET',
+            });
+        });
+
+        it('creates a HTTP request with content-type if payload is provided', () => {
+            const options = {
+                body: { message: 'hello world' },
+                method: 'POST',
+            };
+
+            requestSender.sendRequest(url, options);
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
+                body: options.body,
+                credentials: true,
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
             });
         });
 
@@ -72,7 +90,6 @@ describe('RequestSender', () => {
                 headers: {
                     Accept: 'text/plain',
                     Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
-                    'Content-Type': 'application/json',
                 },
                 method: 'POST',
             });
@@ -191,7 +208,6 @@ describe('RequestSender', () => {
                 credentials: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json',
                 },
                 method: 'GET',
             });
@@ -209,7 +225,6 @@ describe('RequestSender', () => {
                 credentials: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json',
                 },
                 method: 'GET',
             });

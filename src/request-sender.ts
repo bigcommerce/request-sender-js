@@ -75,7 +75,6 @@ export default class RequestSender {
             credentials: true,
             headers: {
                 Accept: 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
             },
             method: 'GET',
         };
@@ -84,6 +83,10 @@ export default class RequestSender {
 
         if (csrfToken && defaultOptions.headers) {
             defaultOptions.headers['X-XSRF-TOKEN'] = csrfToken;
+        }
+
+        if (options && options.body && defaultOptions.headers) {
+            defaultOptions.headers['Content-Type'] = 'application/json';
         }
 
         return merge({}, defaultOptions, options);
