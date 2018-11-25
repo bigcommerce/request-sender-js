@@ -58,6 +58,18 @@ describe('RequestSender', () => {
             });
         });
 
+        it('creates a HTTP request without content-type if payload is not provided', () => {
+            requestSender.sendRequest(url, { method: 'POST' });
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
+                credentials: true,
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                },
+                method: 'POST',
+            });
+        });
+
         it('creates a HTTP request with custom options', () => {
             const options = {
                 body: 'foobar',
