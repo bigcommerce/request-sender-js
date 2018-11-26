@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/bigcommerce/request-sender-js/compare/v0.2.0...v0.2.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **request:** CHECKOUT-3703 Only include content-type header if there is request body ([cb5fc62](https://github.com/bigcommerce/request-sender-js/commit/cb5fc62))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/bigcommerce/request-sender-js/compare/v0.1.8...v0.2.0) (2018-08-30)
 
