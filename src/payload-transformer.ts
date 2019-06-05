@@ -1,15 +1,23 @@
 import Headers from './headers';
 import RequestOptions from './request-options';
 import Response from './response';
+import toFormUrlEncoded from './to-form-url-encoded';
 
 const JSON_CONTENT_TYPE_REGEXP = /application\/(\w+\+)?json/;
+const FORM_URLENCODED_CONTENT_TYPE_REGEXP = /application\/x-www-form-urlencoded/;
 
 export default class PayloadTransformer {
     toRequestBody(options: RequestOptions): any {
         const contentType = options.headers ? this._getHeader(options.headers, 'Content-Type') : '';
 
-        if (options.body && JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
-            return JSON.stringify(options.body);
+        if (options.body) {
+            if (JSON_CONTENT_TYPE_REGEXP.test(contentType)) {
+                return JSON.stringify(options.body);
+            }
+
+            if (FORM_URLENCODED_CONTENT_TYPE_REGEXP.test(contentType)) {
+                return toFormUrlEncoded(options.body);
+            }
         }
 
         return options.body;
