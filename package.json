@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@bigcommerce/tslint-config": "^2.0.2",
-    "@bigcommerce/validate-commits": "^2.0.2",
+    "@bigcommerce/validate-commits": "^2.1.1",
     "@types/jest": "^22.2.3",
     "@types/node": "^10.1.4",
     "jest": "^21.2.1",
