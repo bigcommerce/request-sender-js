@@ -1,4 +1,5 @@
 import PayloadTransformer from './payload-transformer';
+import toFormUrlEncoded from './to-form-url-encoded';
 
 describe('PayloadTransformer', () => {
     let payloadTransformer: PayloadTransformer;
@@ -25,6 +26,30 @@ describe('PayloadTransformer', () => {
 
             expect(payloadTransformer.toRequestBody(options))
                 .toEqual(options.body);
+        });
+
+        it('transforms request body into URL encoded string if it is specified in request header', () => {
+            const options = {
+                body: { message: 'foobar' },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            };
+
+            expect(payloadTransformer.toRequestBody(options))
+                .toEqual(toFormUrlEncoded(options.body));
+        });
+
+        it('does not transform request body into URL encoded string if it is not specified in request header', () => {
+            const options = {
+                body: { message: 'foobar' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+
+            expect(payloadTransformer.toRequestBody(options))
+                .not.toEqual(toFormUrlEncoded(options.body));
         });
     });
 

@@ -1,5 +1,5 @@
 import { CookiesStatic } from 'js-cookie';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
