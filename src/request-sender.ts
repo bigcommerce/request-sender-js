@@ -1,6 +1,7 @@
 import { CookiesStatic } from 'js-cookie';
 import merge from 'lodash/merge';
 
+import Cache, { DefaultCache } from './cache';
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
@@ -10,15 +11,25 @@ import Response from './response';
 import Timeout from './timeout';
 
 export default class RequestSender {
+    private _cache: Cache;
+
     constructor(
         private _requestFactory: RequestFactory,
         private _payloadTransformer: PayloadTransformer,
         private _cookie: CookiesStatic,
-        private _options?: RequestSenderOptions
-    ) {}
+        private _options: RequestSenderOptions = {}
+    ) {
+        this._cache = this._options.cache || new DefaultCache();
+    }
 
     sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
         const requestOptions = this._mergeDefaultOptions(options);
+        const cachedRequest = this._getCachedRequest<T>(url, requestOptions);
+
+        if (cachedRequest) {
+            return Promise.resolve(cachedRequest);
+        }
+
         const request = this._requestFactory.createRequest(this._prependHost(url), requestOptions);
 
         return new Promise((resolve, reject) => {
@@ -26,6 +37,7 @@ export default class RequestSender {
                 const response = this._payloadTransformer.toResponse(request);
 
                 if (response.status >= 200 && response.status < 300) {
+                    this._cacheRequest(url, requestOptions, response);
                     resolve(response);
                 } else {
                     reject(response);
@@ -93,10 +105,30 @@ export default class RequestSender {
     }
 
     private _prependHost(url: string): string {
-        if (!this._options || !this._options.host || /^https?:\/\//.test(url)) {
+        if (!this._options.host || /^https?:\/\//.test(url)) {
             return url;
         }
 
         return `${this._options.host.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
+    }
+
+    private _shouldCacheRequest(options: RequestOptions): boolean {
+        const method = options.method || 'GET';
+
+        return method.toUpperCase() === 'GET' && Boolean(options.cache);
+    }
+
+    private _getCachedRequest<T>(url: string, options: RequestOptions): Response<T> | null {
+        if (this._shouldCacheRequest(options)) {
+            return this._cache.read<T>(url, options);
+        }
+
+        return null;
+    }
+
+    private _cacheRequest<T>(url: string, options: RequestOptions, response: Response<T>): void {
+        if (this._shouldCacheRequest(options)) {
+            this._cache.write(url, options, response);
+        }
     }
 }
