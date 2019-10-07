@@ -3,6 +3,7 @@ import Timeout from './timeout';
 
 export default interface RequestOptions {
     body?: any;
+    cache?: boolean;
     credentials?: boolean;
     headers?: Headers;
     method?: string;

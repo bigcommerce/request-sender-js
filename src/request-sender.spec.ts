@@ -241,6 +241,81 @@ describe('RequestSender', () => {
                 method: 'GET',
             });
         });
+
+        it('caches GET requests when cache option is set', () => {
+            const response = getResponse({ message: 'foobar' });
+            const event = new Event('load');
+
+            jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
+
+            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+
+            const firstPromise = requestSender.sendRequest(url, { cache: true });
+
+            if (request.onload) {
+                request.onload(event);
+            }
+
+            const secondPromise = requestSender.sendRequest(url, { cache: true });
+
+            if (request.onload) {
+                request.onload(event);
+            }
+
+            expect(firstPromise).resolves.toEqual(response);
+            expect(secondPromise).resolves.toEqual(response);
+            expect(requestFactory.createRequest).toHaveBeenCalledTimes(1);
+        });
+
+        it('does not cache requests when method is not GET', () => {
+            const response = getResponse({ message: 'foobar' });
+            const event = new Event('load');
+
+            jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
+
+            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+
+            const firstPromise = requestSender.post(url, { cache: true });
+
+            if (request.onload) {
+                request.onload(event);
+            }
+
+            const secondPromise = requestSender.post(url, { cache: true });
+
+            if (request.onload) {
+                request.onload(event);
+            }
+
+            expect(firstPromise).resolves.toEqual(response);
+            expect(secondPromise).resolves.toEqual(response);
+            expect(requestFactory.createRequest).toHaveBeenCalledTimes(2);
+        });
+
+        it('uses custom Cache instance if provided', () => {
+            const customCache = {
+                read: jest.fn(),
+                write: jest.fn(),
+            };
+
+            const options = { cache: customCache };
+            const response = getResponse({ message: 'foobar' });
+            const event = new Event('load');
+
+            jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
+
+            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+
+            const promise = requestSender.sendRequest(url, { cache: true });
+
+            if (request.onload) {
+                request.onload(event);
+            }
+
+            expect(promise).resolves.toEqual(response);
+            expect(customCache.read).toHaveBeenCalled();
+            expect(customCache.write).toHaveBeenCalled();
+        });
     });
 
     describe('#get()', () => {
