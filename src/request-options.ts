@@ -5,6 +5,7 @@ export default interface RequestOptions {
     body?: any;
     cache?: boolean;
     credentials?: boolean;
+    encodeParams?: boolean;
     headers?: Headers;
     method?: string;
     params?: { [key: string]: any };
