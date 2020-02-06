@@ -64,6 +64,10 @@ To manually complete a timeout.
 Request payload.
 Default: `null`
 
+#### encodeParams: boolean?
+URL encodes params.
+Default: `true`
+
 #### headers: Object?
 Request headers.
 Default: `{
