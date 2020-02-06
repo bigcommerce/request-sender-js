@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/bigcommerce/request-sender-js/compare/v0.4.0...v0.5.0) (2020-02-06)
+
+
+### Features
+
+* **request:** CHP-6278 add request option to prevent param encoding ([4d13047](https://github.com/bigcommerce/request-sender-js/commit/4d13047))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/bigcommerce/request-sender-js/compare/v0.3.0...v0.4.0) (2019-10-07)
 
