@@ -32,6 +32,7 @@ describe('RequestSender', () => {
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                 },
@@ -50,6 +51,7 @@ describe('RequestSender', () => {
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 body: options.body,
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                     'Content-Type': 'application/json',
@@ -63,6 +65,7 @@ describe('RequestSender', () => {
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                 },
@@ -74,6 +77,7 @@ describe('RequestSender', () => {
             const options = {
                 body: 'foobar',
                 credentials: false,
+                encodeParams: false,
                 headers: {
                     Accept: 'text/plain',
                     'Content-Type': 'text/plain',
@@ -88,6 +92,7 @@ describe('RequestSender', () => {
 
         it('creates a HTTP request with default options unless they are overridden', () => {
             const options = {
+                encodeParams: true,
                 headers: {
                     Accept: 'text/plain',
                     Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
@@ -99,6 +104,7 @@ describe('RequestSender', () => {
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, {
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'text/plain',
                     Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
@@ -218,6 +224,7 @@ describe('RequestSender', () => {
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith('https://foobar.com/api/endpoint', {
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                 },
@@ -235,6 +242,7 @@ describe('RequestSender', () => {
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith('https://helloworld.com/api/endpoint', {
                 credentials: true,
+                encodeParams: true,
                 headers: {
                     Accept: 'application/json, text/plain, */*',
                 },

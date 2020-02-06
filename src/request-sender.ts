@@ -85,6 +85,7 @@ export default class RequestSender {
     private _mergeDefaultOptions(options?: RequestOptions): RequestOptions {
         const defaultOptions: Partial<RequestOptions> = {
             credentials: true,
+            encodeParams: true,
             headers: {
                 Accept: 'application/json, text/plain, */*',
             },

@@ -13,7 +13,7 @@ export default class RequestFactory {
     }
 
     private _configureRequest(xhr: XMLHttpRequest, url: string, options: RequestOptions = {}): void {
-        xhr.open(options.method || 'GET', this._formatUrl(url, options.params), true);
+        xhr.open(options.method || 'GET', this._formatUrl(url, options.params, options.encodeParams), true);
 
         if (options.headers) {
             this._configureRequestHeaders(xhr, options.headers);
@@ -34,11 +34,11 @@ export default class RequestFactory {
         });
     }
 
-    private _formatUrl(url: string, params?: object): string {
+    private _formatUrl(url: string, params?: object, encodeParams: boolean = true): string {
         if (!params || Object.keys(params).length === 0) {
             return url;
         }
 
-        return `${url}?${queryString.stringify(params)}`;
+        return `${url}?${queryString.stringify(params, { encode: encodeParams })}`;
     }
 }

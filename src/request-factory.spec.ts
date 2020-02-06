@@ -40,16 +40,31 @@ describe('RequestFactory', () => {
             expect(xhr.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
         });
 
-        it('configures XHR object with parameterized URL', () => {
+        it('configures XHR object with encoded parameterized URL', () => {
             const xhr = requestFactory.createRequest(url, {
                 method: 'GET',
                 params: {
                     bar: 'bar',
-                    foobar: 'foobar',
+                    foo: 'foo',
+                    foobar: 'foo,bar',
                 },
             });
 
-            expect(xhr.open).toHaveBeenCalledWith('GET', `${url}?bar=bar&foobar=foobar`, true);
+            expect(xhr.open).toHaveBeenCalledWith('GET', `${url}?bar=bar&foo=foo&foobar=foo%2Cbar`, true);
+        });
+
+        it('configures XHR object with unencoded paramterized URL', () => {
+            const xhr = requestFactory.createRequest(url, {
+                encodeParams: false,
+                method: 'GET',
+                params: {
+                    bar: 'bar',
+                    foo: 'foo',
+                    foobar: 'foo,bar',
+                },
+            });
+
+            expect(xhr.open).toHaveBeenCalledWith('GET', `${url}?bar=bar&foo=foo&foobar=foo,bar`, true);
         });
     });
 });
