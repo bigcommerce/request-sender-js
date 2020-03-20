@@ -1,5 +1,6 @@
 import * as cookie from 'js-cookie';
 
+import Cache from './cache';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
@@ -301,10 +302,10 @@ describe('RequestSender', () => {
         });
 
         it('uses custom Cache instance if provided', () => {
-            const customCache = {
-                read: jest.fn(),
-                write: jest.fn(),
-            };
+            const customCache = new Cache();
+
+            customCache.read = jest.fn();
+            customCache.write = jest.fn();
 
             const options = { cache: customCache };
             const response = getResponse({ message: 'foobar' });

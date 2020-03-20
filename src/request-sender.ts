@@ -1,7 +1,7 @@
 import { CookiesStatic } from 'js-cookie';
 import merge from 'lodash/merge';
 
-import Cache, { DefaultCache } from './cache';
+import Cache from './cache';
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
@@ -19,7 +19,7 @@ export default class RequestSender {
         private _cookie: CookiesStatic,
         private _options: RequestSenderOptions = {}
     ) {
-        this._cache = this._options.cache || new DefaultCache();
+        this._cache = this._options.cache || new Cache();
     }
 
     sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {

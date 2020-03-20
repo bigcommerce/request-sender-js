@@ -1,11 +1,11 @@
-import { DefaultCache } from './cache';
+import Cache from './cache';
 import { getResponse } from './responses.mock';
 
-describe('DefaultCache', () => {
-    let cache: DefaultCache;
+describe('Cache', () => {
+    let cache: Cache;
 
     beforeEach(() => {
-        cache = new DefaultCache();
+        cache = new Cache();
     });
 
     it('returns null when a cache key does not exist', () => {

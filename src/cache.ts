@@ -12,7 +12,7 @@ interface CacheMap {
     [key: string]: Response<any>;
 }
 
-export class DefaultCache implements Cache {
+export default class Cache implements Cache {
     private readonly _cache: CacheMap = {};
 
     read<T>(url: string, options: RequestOptions): Response<T> | null {
