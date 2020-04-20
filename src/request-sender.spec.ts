@@ -1,9 +1,10 @@
 import * as cookie from 'js-cookie';
 
+import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
+
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
-import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
 
 describe('RequestSender', () => {
     let payloadTransformer: PayloadTransformer;
@@ -122,6 +123,20 @@ describe('RequestSender', () => {
                 headers: expect.objectContaining({
                     'X-XSRF-TOKEN': 'abc',
                 }),
+            }));
+        });
+
+        it('does not create a HTTP request with CSRF token for asset requests even if it exists', () => {
+            url = 'http://foobar/script.js?time=123';
+
+            jest.spyOn(cookie, 'get').mockImplementation(key => key === 'XSRF-TOKEN' ? 'abc' : undefined);
+
+            requestSender.sendRequest(url);
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, expect.objectContaining({
+                headers: {
+                    Accept: expect.any(String),
+                },
             }));
         });
 
