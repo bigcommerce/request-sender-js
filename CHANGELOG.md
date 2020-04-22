@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/bigcommerce/request-sender-js/compare/v0.5.0...v0.5.1) (2020-04-22)
+
+
+### Bug Fixes
+
+* **request:** CHECKOUT-4835 Stop automatically attaching CSRF token when requesting assets ([b24d0cf](https://github.com/bigcommerce/request-sender-js/commit/b24d0cf))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/bigcommerce/request-sender-js/compare/v0.4.0...v0.5.0) (2020-02-06)
 
