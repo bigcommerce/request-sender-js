@@ -23,7 +23,7 @@ export default class RequestSender {
     }
 
     sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
-        const requestOptions = this._mergeDefaultOptions(options);
+        const requestOptions = this._mergeDefaultOptions(url, options);
         const cachedRequest = this._getCachedRequest<T>(url, requestOptions);
 
         if (cachedRequest) {
@@ -82,7 +82,7 @@ export default class RequestSender {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 
-    private _mergeDefaultOptions(options?: RequestOptions): RequestOptions {
+    private _mergeDefaultOptions(url: string, options?: RequestOptions): RequestOptions {
         const defaultOptions: Partial<RequestOptions> = {
             credentials: true,
             encodeParams: true,
@@ -94,7 +94,7 @@ export default class RequestSender {
 
         const csrfToken = this._cookie.get('XSRF-TOKEN');
 
-        if (csrfToken && defaultOptions.headers) {
+        if (csrfToken && defaultOptions.headers && !this._isAssetRequest(url, options)) {
             defaultOptions.headers['X-XSRF-TOKEN'] = csrfToken;
         }
 
@@ -131,5 +131,13 @@ export default class RequestSender {
         if (this._shouldCacheRequest(options)) {
             this._cache.write(url, options, response);
         }
+    }
+
+    private _isAssetRequest(url: string, options?: RequestOptions): boolean {
+        if (options && options.method && options.method.toUpperCase() !== 'GET') {
+            return false;
+        }
+
+        return /\.(png|gif|jpe?g|css|js|json|svg|html?)$/.test(url.split('?')[0]);
     }
 }
