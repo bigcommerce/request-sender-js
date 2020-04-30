@@ -1,10 +1,13 @@
 import * as cookie from 'js-cookie';
 
-import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
-
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
+import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
+
+jest.mock('js-cookie', () => ({
+    get: jest.fn(() => undefined),
+}));
 
 describe('RequestSender', () => {
     let payloadTransformer: PayloadTransformer;
@@ -21,7 +24,6 @@ describe('RequestSender', () => {
 
         jest.spyOn(request, 'abort').mockReturnValue(undefined);
         jest.spyOn(request, 'send').mockReturnValue(undefined);
-        jest.spyOn(cookie, 'get').mockReturnValue(undefined);
         jest.spyOn(requestFactory, 'createRequest').mockReturnValue(request);
 
         requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
@@ -115,7 +117,19 @@ describe('RequestSender', () => {
         });
 
         it('creates a HTTP request with CSRF token if it exists', () => {
-            jest.spyOn(cookie, 'get').mockImplementation(key => key === 'XSRF-TOKEN' ? 'abc' : undefined);
+            const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
+
+            /*
+             * jest.Mocked has a bug with overloads
+             *
+             * The change that broke this was in @types/jest@23.3.14:
+             * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/34889
+             *
+             * The spyOn type is using ReturnType and when used with overloads
+             * it chooses the last overload. Casting to the typeof cookie.get
+             * is the fix for this issue.
+             */
+            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
 
             requestSender.sendRequest(url);
 
@@ -127,11 +141,19 @@ describe('RequestSender', () => {
         });
 
         it('does not create a HTTP request with CSRF token for asset requests even if it exists', () => {
+            const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
+
             url = 'http://foobar/script.js?time=123';
 
-            jest.spyOn(cookie, 'get').mockImplementation(key => key === 'XSRF-TOKEN' ? 'abc' : undefined);
+            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
 
             requestSender.sendRequest(url);
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, expect.not.objectContaining({
+                headers: {
+                    'X-XSRF-TOKEN': 'abc',
+                },
+            }));
 
             expect(requestFactory.createRequest).toHaveBeenCalledWith(url, expect.objectContaining({
                 headers: {
@@ -157,7 +179,7 @@ describe('RequestSender', () => {
 
         it('resolves with the response of the request', () => {
             const response = getResponse({ message: 'foobar' });
-            const event = new Event('load');
+            const event = new ProgressEvent('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -173,7 +195,7 @@ describe('RequestSender', () => {
 
         it('rejects with the response of the request if the server returns an error', () => {
             const response = getErrorResponse({ message: 'foobar' });
-            const event = new Event('load');
+            const event = new ProgressEvent('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -192,7 +214,7 @@ describe('RequestSender', () => {
 
         it('rejects with the response of the request if it fails', () => {
             const response = getTimeoutResponse();
-            const event = new ErrorEvent('error');
+            const event = new ProgressEvent('error');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -211,7 +233,7 @@ describe('RequestSender', () => {
 
         it('aborts the request when resolving the `timeout` promise', async () => {
             const response = getTimeoutResponse();
-            const event = new Event('abort');
+            const event = new ProgressEvent('abort');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -267,7 +289,7 @@ describe('RequestSender', () => {
 
         it('caches GET requests when cache option is set', () => {
             const response = getResponse({ message: 'foobar' });
-            const event = new Event('load');
+            const event = new ProgressEvent('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -292,7 +314,7 @@ describe('RequestSender', () => {
 
         it('does not cache requests when method is not GET', () => {
             const response = getResponse({ message: 'foobar' });
-            const event = new Event('load');
+            const event = new ProgressEvent('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
@@ -323,7 +345,7 @@ describe('RequestSender', () => {
 
             const options = { cache: customCache };
             const response = getResponse({ message: 'foobar' });
-            const event = new Event('load');
+            const event = new ProgressEvent('load');
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 

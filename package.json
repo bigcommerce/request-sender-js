@@ -32,25 +32,34 @@
     "validate-commits": "validate-commits"
   },
   "dependencies": {
-    "@types/js-cookie": "^2.1.0",
-    "@types/lodash": "^4.14.133",
-    "@types/query-string": "^5.1.0",
-    "js-cookie": "^2.1.4",
-    "lodash": "^4.17.11",
-    "query-string": "^5.0.0",
-    "tslib": "^1.8.0"
+    "@types/js-cookie": "^2.2.6",
+    "@types/lodash": "^4.14.150",
+    "@types/query-string": "^6.3.0",
+    "js-cookie": "^2.2.1",
+    "lodash": "^4.17.15",
+    "query-string": "^6.12.1",
+    "tslib": "^1.11.0"
   },
   "devDependencies": {
-    "@bigcommerce/tslint-config": "^2.0.2",
-    "@bigcommerce/validate-commits": "^2.1.1",
-    "@types/jest": "^22.2.3",
-    "@types/node": "^10.1.4",
-    "jest": "^21.2.1",
-    "standard-version": "^4.2.0",
-    "ts-jest": "^21.2.3",
-    "ts-loader": "^3.2.0",
-    "tslint": "^5.10.0",
-    "typescript": "^2.6.2",
-    "typescript-eslint-parser": "^9.0.1"
+    "@bigcommerce/tslint-config": "^4.1.0",
+    "@bigcommerce/validate-commits": "^2.2.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.4",
+    "@typescript-eslint/parser": "^2.30.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.5.1",
+    "standard-version": "^7.1.0",
+    "ts-jest": "^25.4.0",
+    "ts-loader": "^7.0.1",
+    "tslint": "^5.18.0",
+    "typescript": "^3.7.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=3.x"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   }
 }
