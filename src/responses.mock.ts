@@ -6,7 +6,7 @@ export function getResponse(
     headers: Headers = {},
     status: number = 200,
     statusText: string = 'OK'
-): Response {
+): Response<any> {
     return {
         body,
         headers: {
@@ -23,7 +23,7 @@ export function getErrorResponse(
     headers: Headers = {},
     status: number = 400,
     statusText: string = 'Bad Request'
-): Response {
+): Response<any> {
     return {
         body,
         headers: {
@@ -35,7 +35,7 @@ export function getErrorResponse(
     };
 }
 
-export function getTimeoutResponse(): Response {
+export function getTimeoutResponse(): Response<any> {
     return {
         body: '',
         headers: {},
