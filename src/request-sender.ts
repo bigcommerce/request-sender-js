@@ -22,7 +22,7 @@ export default class RequestSender {
         this._cache = this._options.cache || new DefaultCache();
     }
 
-    sendRequest<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    sendRequest<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         const requestOptions = this._mergeDefaultOptions(url, options);
         const cachedRequest = this._getCachedRequest<T>(url, requestOptions);
 
@@ -62,23 +62,23 @@ export default class RequestSender {
         });
     }
 
-    get<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    get<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'GET' });
     }
 
-    post<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    post<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'POST' });
     }
 
-    put<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    put<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PUT' });
     }
 
-    patch<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    patch<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PATCH' });
     }
 
-    delete<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    delete<T>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 
