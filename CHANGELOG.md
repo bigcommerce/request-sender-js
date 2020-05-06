@@ -1,6 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.0.0](https://github.com/bigcommerce/request-sender-js/compare/v0.5.1...v1.0.0) (2020-05-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **common:** Requires `typescript` version 3.x.
+
+### Features
+
+* **request:** CHP-6487 change response types from any to unknown ([#23](https://github.com/bigcommerce/request-sender-js/issues/23)) ([18c0226](https://github.com/bigcommerce/request-sender-js/commit/18c02267e8c564bfd6b0c949afbd1d3dabbce8cb))
+
+
+* **common:** CHP-6487 bump dependencies and fix breaking changes ([#22](https://github.com/bigcommerce/request-sender-js/issues/22)) ([a9f7d43](https://github.com/bigcommerce/request-sender-js/commit/a9f7d4367adefef820adc986d2be28907b4054bb))
 
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/bigcommerce/request-sender-js/compare/v0.5.0...v0.5.1) (2020-04-22)
