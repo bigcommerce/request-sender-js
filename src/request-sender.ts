@@ -22,7 +22,7 @@ export default class RequestSender {
         this._cache = this._options.cache || new DefaultCache();
     }
 
-    sendRequest<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    sendRequest<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         const requestOptions = this._mergeDefaultOptions(url, options);
         const cachedRequest = this._getCachedRequest<T>(url, requestOptions);
 
@@ -34,7 +34,7 @@ export default class RequestSender {
 
         return new Promise((resolve, reject) => {
             const requestHandler = () => {
-                const response = this._payloadTransformer.toResponse(request);
+                const response = this._payloadTransformer.toResponse<T>(request);
 
                 if (response.status >= 200 && response.status < 300) {
                     this._cacheRequest(url, requestOptions, response);
@@ -62,23 +62,23 @@ export default class RequestSender {
         });
     }
 
-    get<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    get<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'GET' });
     }
 
-    post<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    post<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'POST' });
     }
 
-    put<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    put<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PUT' });
     }
 
-    patch<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    patch<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'PATCH' });
     }
 
-    delete<T = any>(url: string, options?: RequestOptions): Promise<Response<T>> {
+    delete<T = unknown>(url: string, options?: RequestOptions): Promise<Response<T>> {
         return this.sendRequest(url, { ...options, method: 'DELETE' });
     }
 

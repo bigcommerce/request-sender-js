@@ -23,7 +23,7 @@ export default class PayloadTransformer {
         return options.body;
     }
 
-    toResponse(xhr: XMLHttpRequest): Response {
+    toResponse<T = unknown>(xhr: XMLHttpRequest): Response<T> {
         const headers = this._parseResponseHeaders(xhr.getAllResponseHeaders());
 
         // Using `responseText` to support legacy IE
