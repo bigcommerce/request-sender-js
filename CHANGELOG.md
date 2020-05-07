@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/bigcommerce/request-sender-js/compare/v1.0.0...v1.0.1) (2020-05-07)
+
+
+### Bug Fixes
+
+* **common:** CHP-6487 remove explicit unknown generic types ([#24](https://github.com/bigcommerce/request-sender-js/issues/24)) ([c763526](https://github.com/bigcommerce/request-sender-js/commit/c763526766f041348fe73d41d8a5b4c626088b95))
+
 ## [1.0.0](https://github.com/bigcommerce/request-sender-js/compare/v0.5.1...v1.0.0) (2020-05-06)
 
 
