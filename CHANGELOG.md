@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/bigcommerce/request-sender-js/compare/v1.0.1...v1.0.2) (2020-05-14)
+
+
+### Bug Fixes
+
+* **common:** CHP-6524 query-string@6 doesn't support older browsers ([#26](https://github.com/bigcommerce/request-sender-js/issues/26)) ([eb82d08](https://github.com/bigcommerce/request-sender-js/commit/eb82d083b63b385ebd64f18efbab26e8ed646b5e))
+
 ### [1.0.1](https://github.com/bigcommerce/request-sender-js/compare/v1.0.0...v1.0.1) (2020-05-07)
 
 
