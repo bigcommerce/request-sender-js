@@ -66,5 +66,25 @@ describe('RequestFactory', () => {
 
             expect(xhr.open).toHaveBeenCalledWith('GET', `${url}?bar=bar&foo=foo&foobar=foo,bar`, true);
         });
+
+        it('configures XHR object without null headers', () => {
+            const xhr = requestFactory.createRequest(url, {
+                credentials: false,
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': null,
+                    Authorization: 'auth_key',
+                },
+            });
+
+            expect(xhr.withCredentials).toEqual(false);
+            expect(xhr.open).toHaveBeenCalledWith('POST', url, true);
+            expect(xhr.setRequestHeader).toHaveBeenCalledWith('Accept', 'application/json, text/plain, */*');
+            expect(xhr.setRequestHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
+            expect(xhr.setRequestHeader).not.toHaveBeenCalledWith('X-XSRF-TOKEN', null);
+            expect(xhr.setRequestHeader).toHaveBeenCalledWith('Authorization', 'auth_key');
+        });
     });
 });

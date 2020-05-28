@@ -29,7 +29,9 @@ export default class RequestFactory {
     }
 
     private _configureRequestHeaders(xhr: XMLHttpRequest, headers: Headers): void {
-        Object.keys(headers).forEach(key => {
+        Object.keys(headers)
+            .filter(key => headers[key] !== null)
+            .forEach(key => {
             xhr.setRequestHeader(key, headers[key]);
         });
     }
