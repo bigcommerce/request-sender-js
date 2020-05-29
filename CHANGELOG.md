@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.3](https://github.com/bigcommerce/request-sender-js/compare/v1.0.2...v1.0.3) (2020-05-29)
+
+
+### Bug Fixes
+
+* **common:** INT-2280 Allow removal of XSRF Token for remote API call ([3413456](https://github.com/bigcommerce/request-sender-js/commit/341345622fa3e22441b6d969fc5641026dc1cf42))
+
 ### [1.0.2](https://github.com/bigcommerce/request-sender-js/compare/v1.0.1...v1.0.2) (2020-05-14)
 
 
