@@ -1,5 +1,5 @@
 import { CookiesStatic } from 'js-cookie';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 
 import Cache, { DefaultCache } from './cache';
 import isPromise from './is-promise';
