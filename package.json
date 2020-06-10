@@ -5,8 +5,10 @@
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "module": "esm/index.js",
   "files": [
-    "lib/"
+    "lib/",
+    "esm/"
   ],
   "repository": {
     "type": "git",
@@ -19,7 +21,9 @@
   "homepage": "https://github.com/bigcommerce/request-sender-js",
   "scripts": {
     "prebuild": "rm -rf lib",
-    "build": "tsc --outDir lib --project tsconfig-build.json",
+    "build:cjs": "tsc --outDir lib --project tsconfig-build.json",
+    "build:esm": "tsc --outDir esm --project tsconfig-build.json --target ES2015 --module esnext",
+    "build": "npm run build:cjs && npm run build:esm",
     "lint": "tslint 'src/**/*.ts' --config tslint.json --project tsconfig.json && tsc --noEmit",
     "prepare": "npm run build",
     "prerelease": "git fetch --tags && npm run validate-commits && npm run lint && npm test",
@@ -33,10 +37,9 @@
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.6",
-    "@types/lodash": "^4.14.150",
     "@types/query-string": "^5.1.0",
     "js-cookie": "^2.2.1",
-    "lodash": "^4.17.15",
+    "lodash.merge": "^4.6.2",
     "query-string": "^5.1.1",
     "tslib": "^1.11.0"
   },
@@ -44,6 +47,7 @@
     "@bigcommerce/tslint-config": "^4.1.0",
     "@bigcommerce/validate-commits": "^2.2.0",
     "@types/jest": "^25.2.1",
+    "@types/lodash.merge": "^4.6.6",
     "@types/node": "^13.13.4",
     "@typescript-eslint/parser": "^2.30.0",
     "eslint": "^6.8.0",
