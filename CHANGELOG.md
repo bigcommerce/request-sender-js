@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/bigcommerce/request-sender-js/compare/v1.0.3...v1.1.0) (2020-06-10)
+
+
+### Features
+
+* **common:** RS-28 add ESM support ([#29](https://github.com/bigcommerce/request-sender-js/issues/29)) ([45a0d87](https://github.com/bigcommerce/request-sender-js/commit/45a0d879e6d7b95ac729f7a6d1a7271cbeb33ecc))
+
 ### [1.0.3](https://github.com/bigcommerce/request-sender-js/compare/v1.0.2...v1.0.3) (2020-05-29)
 
 
