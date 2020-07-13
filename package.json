@@ -22,7 +22,7 @@
   "scripts": {
     "prebuild": "rm -rf lib",
     "build:cjs": "tsc --outDir lib --project tsconfig-build.json",
-    "build:esm": "tsc --outDir esm --project tsconfig-build.json --target ES2015 --module esnext",
+    "build:esm": "tsc --outDir esm --project tsconfig-build.json --target es5 --module esnext",
     "build": "npm run build:cjs && npm run build:esm",
     "lint": "tslint 'src/**/*.ts' --config tslint.json --project tsconfig.json && tsc --noEmit",
     "prepare": "npm run build",
