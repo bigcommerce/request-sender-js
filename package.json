@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/bigcommerce/request-sender-js",
   "scripts": {
-    "prebuild": "rm -rf lib",
+    "prebuild": "rm -rf lib; rm -rf esm",
     "build:cjs": "tsc --outDir lib --project tsconfig-build.json",
     "build:esm": "tsc --outDir esm --project tsconfig-build.json --target es5 --module esnext",
     "build": "npm run build:cjs && npm run build:esm",
