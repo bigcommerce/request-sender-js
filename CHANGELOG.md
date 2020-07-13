@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/bigcommerce/request-sender-js/compare/v1.1.0...v1.2.0) (2020-07-13)
+
+
+### Features
+
+* **common:** RS-28 Publish as es5 ([#30](https://github.com/bigcommerce/request-sender-js/issues/30)) ([66ce65a](https://github.com/bigcommerce/request-sender-js/commit/66ce65ae4bed8381edc4bcf0ecadf563948de427))
+
+
+### Bug Fixes
+
+* **common:** CHP-00 remove esm folder on prebuild ([90b7258](https://github.com/bigcommerce/request-sender-js/commit/90b725894fd3bb09653b42b29efbb38762f47cab))
+
 ## [1.1.0](https://github.com/bigcommerce/request-sender-js/compare/v1.0.3...v1.1.0) (2020-06-10)
 
 
