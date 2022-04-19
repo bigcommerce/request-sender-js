@@ -102,6 +102,10 @@ export default class RequestSender {
             defaultOptions.headers['Content-Type'] = 'application/json';
         }
 
+        if (this._options.isControlPanel && defaultOptions.headers) {
+            defaultOptions.headers['X-Is-ControlPanel'] = true;
+        }
+
         return merge({}, defaultOptions, options);
     }
 
