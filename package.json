@@ -54,7 +54,7 @@
     "jest": "^25.5.1",
     "standard-version": "^8.0.1",
     "ts-jest": "^25.4.0",
-    "ts-loader": "^7.0.1",
+    "ts-loader": "^9.4.2",
     "tslint": "^5.18.0",
     "typescript": "^3.7.2"
   },
