@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/bigcommerce/request-sender-js/compare/v1.2.0...v1.2.2) (2024-01-17)
+
+
+### Bug Fixes
+
+* **common:** FE-00 Update typescript config to remove sourcemap generation ([8381ece](https://github.com/bigcommerce/request-sender-js/commit/8381ece623827b2ab18cea734e887f7dc38d2778))
+* upgrade @types/js-cookie from 2.2.6 to 2.2.7 ([b6b86b8](https://github.com/bigcommerce/request-sender-js/commit/b6b86b8ceee821f77f7e219d4111bdd3f4172861))
+
 ### [1.2.1](https://github.com/bigcommerce/request-sender-js/compare/v1.2.0...v1.2.1) (2022-06-28)
 
 
