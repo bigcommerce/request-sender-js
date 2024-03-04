@@ -140,6 +140,42 @@ describe('RequestSender', () => {
             }));
         });
 
+        it('appends xsrf token if request url matches the parent domain', () => {
+            const originalHostname = window.location.hostname;
+
+            Object.defineProperty(window, 'location', {
+                value: { hostname: 'foobar.com' },
+                writable: true,
+            });
+
+            const options = {
+                encodeParams: true,
+                headers: {
+                    Accept: 'text/plain',
+                    Authorization: 'Basic YWxhZGRpbjpvcGVuc2VzYW1l',
+                },
+                method: 'POST',
+            };
+
+            const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
+            url = 'http://foobar.com/script.js?time=123';
+
+            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
+
+            requestSender.sendRequest(url, options);
+
+            Object.defineProperty(window, 'location', {
+                value: { hostname: originalHostname },
+                writable: true,
+            });
+
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, expect.objectContaining({
+                headers: expect.objectContaining({
+                    'X-XSRF-TOKEN': 'abc',
+                }),
+            }));
+        });
+
         it('does not create a HTTP request with CSRF token for asset requests even if it exists', () => {
             const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
 

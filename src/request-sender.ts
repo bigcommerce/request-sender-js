@@ -94,7 +94,7 @@ export default class RequestSender {
 
         const csrfToken = this._cookie.get('XSRF-TOKEN');
 
-        if (csrfToken && defaultOptions.headers && !this._isAssetRequest(url, options)) {
+        if (csrfToken && defaultOptions.headers && !this._isAssetRequest(url, options) && this._isLocalRequest(url)) {
             defaultOptions.headers['X-XSRF-TOKEN'] = csrfToken;
         }
 
@@ -139,5 +139,13 @@ export default class RequestSender {
         }
 
         return /\.(png|gif|jpe?g|css|js|json|svg|html?)$/.test(url.split('?')[0]);
+    }
+
+    private _isLocalRequest(url: string) {
+        if (url.match(new RegExp('^(https?:)?\/\/' + window.location.hostname))) {
+            return true;
+        }
+
+        return !url.match(new RegExp('^(htttps?:)?\/\/'));
     }
 }
