@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.4](https://github.com/bigcommerce/request-sender-js/compare/v1.2.3...v1.2.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* **request:** CHECKOUT-8092 Fix typo ([63e1040](https://github.com/bigcommerce/request-sender-js/commit/63e10405fe9cefd3a1d14b8ccc0854194c1e34cf))
+* **request:** CHECKOUT-8092 Update test ([c7cfe44](https://github.com/bigcommerce/request-sender-js/commit/c7cfe444e5722e233ae6f177c87cef0b4294090f))
+
 ### [1.2.3](https://github.com/bigcommerce/request-sender-js/compare/v1.2.2...v1.2.3) (2024-03-05)
 
 
