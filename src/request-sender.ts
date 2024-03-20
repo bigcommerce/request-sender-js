@@ -146,6 +146,6 @@ export default class RequestSender {
             return true;
         }
 
-        return !url.match(new RegExp('^(htttps?:)?\/\/'));
+        return !url.match(new RegExp('^(https?:)?\/\/'));
     }
 }

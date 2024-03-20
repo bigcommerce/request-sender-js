@@ -118,6 +118,7 @@ describe('RequestSender', () => {
 
         it('creates a HTTP request with CSRF token if it exists', () => {
             const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
+            const relativeUrl = '/v1/endpoint';
 
             /*
              * jest.Mocked has a bug with overloads
@@ -131,9 +132,9 @@ describe('RequestSender', () => {
              */
             jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
 
-            requestSender.sendRequest(url);
+            requestSender.sendRequest(relativeUrl);
 
-            expect(requestFactory.createRequest).toHaveBeenCalledWith(url, expect.objectContaining({
+            expect(requestFactory.createRequest).toHaveBeenCalledWith(relativeUrl, expect.objectContaining({
                 headers: expect.objectContaining({
                     'X-XSRF-TOKEN': 'abc',
                 }),
