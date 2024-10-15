@@ -36,9 +36,9 @@
     "validate-commits": "validate-commits"
   },
   "dependencies": {
-    "@types/js-cookie": "^2.2.7",
+    "@types/js-cookie": "^3.0.6",
     "@types/query-string": "^5.1.0",
-    "js-cookie": "^2.2.1",
+    "js-cookie": "^3.0.5",
     "lodash.merge": "^4.6.2",
     "query-string": "^5.1.1",
     "tslib": "^1.11.0"
