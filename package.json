@@ -41,7 +41,7 @@
     "js-cookie": "^2.2.1",
     "lodash.merge": "^4.6.2",
     "query-string": "^5.1.1",
-    "tslib": "^1.11.0"
+    "tslib": "^2.8.0"
   },
   "devDependencies": {
     "@bigcommerce/tslint-config": "^4.1.0",
