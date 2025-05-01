@@ -274,7 +274,7 @@ describe('RequestSender', () => {
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
-            const timeout = new Promise(resolve => resolve());
+            const timeout = new Promise<void>(resolve => resolve());
             const promise = requestSender.sendRequest(url, { timeout });
 
             await timeout;
