@@ -9,60 +9,62 @@ describe('Timeout', () => {
         jest.useRealTimers();
     });
 
-    it('triggers callback when complete', done => {
-        const timeout = new Timeout();
-        const callback = jest.fn();
-
-        timeout.onComplete(callback);
-        timeout.complete();
-
-        process.nextTick(() => {
-            expect(callback).toHaveBeenCalled();
-            done();
-        });
-    });
-
-    it('does not trigger callback again after completion', done => {
-        const timeout = new Timeout();
-        const callback = jest.fn();
-
-        timeout.onComplete(callback);
-        timeout.complete();
-        timeout.complete();
-
-        process.nextTick(() => {
-            expect(callback).toHaveBeenCalledTimes(1);
-            done();
-        });
-    });
-
-    it('triggers callback after delay', done => {
+    it('triggers callback when complete', async () => {
         const timeout = new Timeout(10);
         const callback = jest.fn();
 
         timeout.onComplete(callback);
         timeout.start();
 
-        jest.runTimersToTime(10);
+        jest.advanceTimersByTime(10);
+        await Promise.resolve();
 
-        process.nextTick(() => {
-            expect(callback).toHaveBeenCalled();
-            done();
-        });
+        expect(callback).toHaveBeenCalledTimes(1);
     });
 
-    it('does not trigger callback again after manual completion', done => {
+    it('does not trigger callback again after completion', async () => {
         const timeout = new Timeout(10);
         const callback = jest.fn();
 
         timeout.onComplete(callback);
+        timeout.start();
+
+        jest.advanceTimersByTime(10);
+        await Promise.resolve();
         timeout.complete();
 
-        jest.runTimersToTime(10);
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
 
-        process.nextTick(() => {
-            expect(callback).toHaveBeenCalledTimes(1);
-            done();
-        });
+    it('triggers callback after delay', async () => {
+        const timeout = new Timeout(20);
+        const callback = jest.fn();
+
+        timeout.onComplete(callback);
+        timeout.start();
+
+        jest.advanceTimersByTime(10);
+        await Promise.resolve();
+        expect(callback).not.toHaveBeenCalled();
+
+        jest.advanceTimersByTime(10);
+        await Promise.resolve();
+
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not trigger callback again after manual completion', async () => {
+        const timeout = new Timeout(10);
+        const callback = jest.fn();
+
+        timeout.onComplete(callback);
+        timeout.start();
+        timeout.complete();
+        await Promise.resolve();
+
+        jest.advanceTimersByTime(20);
+        await Promise.resolve();
+
+        expect(callback).toHaveBeenCalledTimes(1);
     });
 });

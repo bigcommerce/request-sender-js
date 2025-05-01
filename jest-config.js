@@ -1,5 +1,4 @@
 module.exports = {
-    browser: true,
     transform: {
         '\\.(ts|js)$': '<rootDir>/node_modules/ts-jest',
     },
@@ -10,6 +9,7 @@ module.exports = {
         'jsx',
         'json',
     ],
+    testEnvironment: 'jest-environment-jsdom',
     testRegex: 'src/.*\\.spec.(js|ts)$',
     setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     collectCoverageFrom: [

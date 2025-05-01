@@ -1,15 +1,10 @@
 export default class Timeout {
-    private _promise: Promise<any>;
-    private _resolve: () => void;
-    private _timeoutToken?: number;
+    private _promise: Promise<void>;
+    private _resolve!: () => void;
+    private _timeoutToken?: ReturnType<typeof setTimeout>;
 
-    constructor(
-        private _delay?: number
-    ) {
-        // tslint:disable-next-line:no-empty
-        this._resolve = () => {};
-
-        this._promise = new Promise(resolve => {
+    constructor(private _delay?: number) {
+        this._promise = new Promise<void>(resolve => {
             this._resolve = resolve;
         });
     }
@@ -21,14 +16,14 @@ export default class Timeout {
     complete(): void {
         this._resolve();
 
-        if (this._timeoutToken) {
-            window.clearTimeout(this._timeoutToken);
+        if (this._timeoutToken !== undefined) {
+            clearTimeout(this._timeoutToken);
         }
     }
 
     start(): void {
-        if (this._delay) {
-            this._timeoutToken = window.setTimeout(() => this.complete(), this._delay);
+        if (this._delay !== undefined) {
+            this._timeoutToken = setTimeout(() => this.complete(), this._delay);
         }
     }
 }
