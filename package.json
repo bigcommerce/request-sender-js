@@ -1,6 +1,6 @@
 {
   "name": "@bigcommerce/request-sender",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "HTTP request client for browsers",
   "license": "MIT",
   "main": "lib/index.js",
