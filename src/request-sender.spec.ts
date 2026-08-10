@@ -30,6 +30,10 @@ describe('RequestSender', () => {
         requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
     });
 
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
     describe('#sendRequest()', () => {
         it('creates a HTTP request with default options', () => {
             requestSender.sendRequest(url);
@@ -309,8 +313,6 @@ describe('RequestSender', () => {
             expect(promise).rejects.toEqual(response);
             expect(request.abort).toHaveBeenCalled();
             expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
-
-            jest.useRealTimers();
         });
 
         it('prepends host to request URL', () => {
