@@ -1,5 +1,6 @@
 import * as cookie from 'js-cookie';
 
+import createTimeout from './create-timeout';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
@@ -27,6 +28,10 @@ describe('RequestSender', () => {
         jest.spyOn(requestFactory, 'createRequest').mockReturnValue(request);
 
         requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+    });
+
+    afterEach(() => {
+        jest.useRealTimers();
     });
 
     describe('#sendRequest()', () => {
@@ -278,6 +283,28 @@ describe('RequestSender', () => {
             const promise = requestSender.sendRequest(url, { timeout });
 
             await timeout;
+
+            if (request.onabort) {
+                request.onabort(event);
+            }
+
+            expect(promise).rejects.toEqual(response);
+            expect(request.abort).toHaveBeenCalled();
+            expect(payloadTransformer.toResponse).toHaveBeenCalledWith(request);
+        });
+
+        it('aborts the request when a `Timeout` instance completes', async () => {
+            const response = getTimeoutResponse();
+            const event = new ProgressEvent('abort');
+
+            jest.useFakeTimers();
+            jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
+
+            const timeout = createTimeout(10);
+            const promise = requestSender.sendRequest(url, { timeout });
+
+            jest.advanceTimersByTime(10);
+            await Promise.resolve();
 
             if (request.onabort) {
                 request.onabort(event);
