@@ -1,4 +1,4 @@
-import * as cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
@@ -9,7 +9,7 @@ export default function createRequestSender(options?: RequestSenderOptions): Req
     return new RequestSender(
         new RequestFactory(),
         new PayloadTransformer(),
-        cookie,
+        Cookies,
         options
     );
 }

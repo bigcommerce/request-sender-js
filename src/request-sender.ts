@@ -1,7 +1,7 @@
-import { CookiesStatic } from 'js-cookie';
 import merge from 'lodash.merge';
 
 import Cache, { DefaultCache } from './cache';
+import CookieReader from './cookie-reader';
 import isPromise from './is-promise';
 import PayloadTransformer from './payload-transformer';
 import RequestFactory from './request-factory';
@@ -16,7 +16,7 @@ export default class RequestSender {
     constructor(
         private _requestFactory: RequestFactory,
         private _payloadTransformer: PayloadTransformer,
-        private _cookie: CookiesStatic,
+        private _cookie: CookieReader,
         private _options: RequestSenderOptions = {}
     ) {
         this._cache = this._options.cache || new DefaultCache();
