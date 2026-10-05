@@ -1,7 +1,6 @@
-import * as queryString from 'query-string';
-
 import Headers from './headers';
 import RequestOptions from './request-options';
+import stringifyQuery from './stringify-query';
 
 export default class RequestFactory {
     createRequest(url: string, options?: RequestOptions): XMLHttpRequest {
@@ -41,6 +40,6 @@ export default class RequestFactory {
             return url;
         }
 
-        return `${url}?${queryString.stringify(params, { encode: encodeParams })}`;
+        return `${url}?${stringifyQuery(params, encodeParams)}`;
     }
 }
