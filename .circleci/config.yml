@@ -1,14 +1,19 @@
+version: 2.1
+
+orbs:
+    ci: bigcommerce/internal@volatile
+    node: bigcommerce/internal-node@volatile
+
 aliases:
   - &node_executor
       executor:
         name: node/node
         node-version: "26.7"
 
-version: 2.1
-
-orbs:
-  ci: bigcommerce/internal@volatile
-  node: bigcommerce/internal-node@volatile
+  - &release_filter
+      branches:
+        only:
+          - master
 
 jobs:
   test:
@@ -16,6 +21,9 @@ jobs:
     steps:
       - ci/pre-setup
       - node/npm-install
+      - run:
+          name: "Run linter"
+          command: npm run lint
       - run:
           name: "Run unit tests"
           command: npm run test:series -- --coverage
@@ -29,16 +37,73 @@ jobs:
       - ci/pre-setup
       - node/npm-install
       - run:
-          name: "Run linter"
-          command: npm run lint
-      - run:
           name: "Build files"
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - lib
+            - esm
+
+  release:
+    <<: *node_executor
+    steps:
+      - ci/pre-setup
+      - node/npm-install
+      - run:
+            name: "Install npm with trusted publishing support"
+            command: sudo npm install --global npm@11.18.0
+      - run:
+          name: "Configure Git user"
+          command: |
+            git config user.email $GIT_USER_EMAIL
+            git config user.name $GIT_USER_NAME
+      - run:
+          name: "Remove old release files"
+          command: rm -rf lib esm
+      - attach_workspace:
+          at: .
+      - run:
+          name: "Create and tag new release"
+          command: npm run release
+      - run:
+          name: "Push commits and tag to GitHub"
+          command: |
+            git push --follow-tags origin $CIRCLE_BRANCH
+      - run:
+            name: "Publish release to npm"
+            command: |
+                export NPM_ID_TOKEN="$(
+                  circleci run oidc get \
+                    --claims '{"aud": "npm:registry.npmjs.org"}'
+                )"
+                npm publish --access public
 
 workflows:
-  version: 2
+  version: 2.1
+
   build:
     jobs:
       - ci/validate-commits
       - test
       - build
+
+  release:
+    jobs:
+      - build:
+          filters:
+            <<: *release_filter
+      - approve:
+          filters:
+            <<: *release_filter
+          type: approval
+          requires:
+            - test
+            - build
+      - release:
+          context:
+            - npmjs-publish
+          filters:
+            <<: *release_filter
+          requires:
+            - approve

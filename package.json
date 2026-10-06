@@ -28,7 +28,6 @@
     "prepare": "npm run build",
     "prerelease": "git fetch --tags && npm run validate-commits && npm run lint && npm test",
     "release": "standard-version",
-    "postrelease": "npm publish --access public && git push --follow-tags",
     "test": "jest --config jest-config.js",
     "test:coverage": "npm test -- --coverage",
     "test:series": "npm test -- --runInBand",
