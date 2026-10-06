@@ -12,6 +12,7 @@
  */
 export default function stringifyQuery(params: { [key: string]: any }, encode: boolean = true): string {
     const format = (value: any) => encode ? strictEncode(value) : value;
+    const pair = (key: string, value: any) => value === null ? format(key) : `${format(key)}=${format(value)}`;
 
     return Object.keys(params)
         .sort()
@@ -22,25 +23,14 @@ export default function stringifyQuery(params: { [key: string]: any }, encode: b
                 return '';
             }
 
-            if (value === null) {
-                return format(key);
-            }
-
             if (Array.isArray(value)) {
                 return value
-                    .reduce((result: string[], item: any) => {
-                        if (item === null) {
-                            result.push(format(key));
-                        } else if (item !== undefined) {
-                            result.push([format(key), '=', format(item)].join(''));
-                        }
-
-                        return result;
-                    }, [])
+                    .filter(item => item !== undefined)
+                    .map(item => pair(key, item))
                     .join('&');
             }
 
-            return format(key) + '=' + format(value);
+            return pair(key, value);
         })
         .filter(part => part.length > 0)
         .join('&');
