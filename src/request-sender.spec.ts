@@ -6,6 +6,7 @@ import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
 import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
 
+// This suite injects the cookie reader. create-request-sender.spec.ts tests the js-cookie default import.
 jest.mock('js-cookie', () => ({
     __esModule: true,
     default: {
