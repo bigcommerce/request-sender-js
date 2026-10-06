@@ -50,4 +50,25 @@ describe('DefaultCache', () => {
         expect(firstCachedResponse).toBe(firstTestResponse);
         expect(secondCachedResponse).toBe(secondTestResponse);
     });
+
+    it('reads the same entry when the params have a different key order', () => {
+        const response = getResponse('Test Body');
+        const url = 'https://example.com';
+
+        cache.write(url, { params: { a: 1, b: [2, 3] } }, response);
+
+        expect(cache.read(url, { params: { b: [2, 3], a: 1 } })).toBe(response);
+    });
+
+    it('uses a sorted and strictly encoded query string as the cache key', () => {
+        const url = 'https://example.com';
+        const getKey = (params?: object) => (cache as any).getKey(url, params);
+
+        expect(getKey()).toEqual(url);
+        expect(getKey({})).toEqual(url);
+        expect(getKey({ a: undefined })).toEqual(`${url}?`);
+        expect(getKey({ b: 'x y', a: null, c: [1, null, undefined], d: [], e: { f: 1 } }))
+            .toEqual(`${url}?a&b=x%20y&c=1&c&e=%5Bobject%20Object%5D`);
+        expect(getKey({ "!'()*": 'é' })).toEqual(`${url}?%21%27%28%29%2A=%C3%A9`);
+    });
 });

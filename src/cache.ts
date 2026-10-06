@@ -1,7 +1,6 @@
-import * as queryString from 'query-string';
-
 import RequestOptions from './request-options';
 import Response from './response';
+import stringifyQuery from './stringify-query';
 
 export default interface Cache {
     read<T>(url: string, options: RequestOptions): Response<T> | null;
@@ -32,6 +31,6 @@ export class DefaultCache implements Cache {
             return url;
         }
 
-        return `${url}?${queryString.stringify(params)}`;
+        return `${url}?${stringifyQuery(params)}`;
     }
 }

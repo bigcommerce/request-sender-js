@@ -1,4 +1,4 @@
-import * as cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import createTimeout from './create-timeout';
 import PayloadTransformer from './payload-transformer';
@@ -6,8 +6,12 @@ import RequestFactory from './request-factory';
 import RequestSender from './request-sender';
 import { getErrorResponse, getResponse, getTimeoutResponse } from './responses.mock';
 
+// This suite injects the cookie reader. create-request-sender.spec.ts tests the js-cookie default import.
 jest.mock('js-cookie', () => ({
-    get: jest.fn(() => undefined),
+    __esModule: true,
+    default: {
+        get: jest.fn(() => undefined),
+    },
 }));
 
 describe('RequestSender', () => {
@@ -27,7 +31,7 @@ describe('RequestSender', () => {
         jest.spyOn(request, 'send').mockReturnValue(undefined);
         jest.spyOn(requestFactory, 'createRequest').mockReturnValue(request);
 
-        requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+        requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies);
     });
 
     afterEach(() => {
@@ -132,10 +136,10 @@ describe('RequestSender', () => {
              * https://github.com/DefinitelyTyped/DefinitelyTyped/issues/34889
              *
              * The spyOn type is using ReturnType and when used with overloads
-             * it chooses the last overload. Casting to the typeof cookie.get
+             * it chooses the last overload. Casting to the typeof Cookies.get
              * is the fix for this issue.
              */
-            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
+            jest.spyOn(Cookies, 'get').mockImplementationOnce(mockFn as typeof Cookies.get);
 
             requestSender.sendRequest(relativeUrl);
 
@@ -166,7 +170,7 @@ describe('RequestSender', () => {
             const mockFn = (key: string) => key === 'XSRF-TOKEN' ? 'abc' : undefined;
             url = 'http://foobar.com/script.js?time=123';
 
-            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
+            jest.spyOn(Cookies, 'get').mockImplementationOnce(mockFn as typeof Cookies.get);
 
             requestSender.sendRequest(url, options);
 
@@ -187,7 +191,7 @@ describe('RequestSender', () => {
 
             url = 'http://foobar/script.js?time=123';
 
-            jest.spyOn(cookie, 'get').mockImplementationOnce(mockFn as typeof cookie.get);
+            jest.spyOn(Cookies, 'get').mockImplementationOnce(mockFn as typeof Cookies.get);
 
             requestSender.sendRequest(url);
 
@@ -319,7 +323,7 @@ describe('RequestSender', () => {
             const options = { host: 'https://foobar.com/' };
             const relativeUrl = '/api/endpoint';
 
-            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+            requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies, options);
 
             requestSender.sendRequest(relativeUrl);
 
@@ -337,7 +341,7 @@ describe('RequestSender', () => {
             const options = { host: 'https://foobar.com/' };
             const absoluteUrl = 'https://helloworld.com/api/endpoint';
 
-            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+            requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies, options);
 
             requestSender.sendRequest(absoluteUrl);
 
@@ -357,7 +361,7 @@ describe('RequestSender', () => {
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
-            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+            requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies);
 
             const firstPromise = requestSender.sendRequest(url, { cache: true });
 
@@ -382,7 +386,7 @@ describe('RequestSender', () => {
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
-            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie);
+            requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies);
 
             const firstPromise = requestSender.post(url, { cache: true });
 
@@ -413,7 +417,7 @@ describe('RequestSender', () => {
 
             jest.spyOn(payloadTransformer, 'toResponse').mockReturnValue(response);
 
-            requestSender = new RequestSender(requestFactory, payloadTransformer, cookie, options);
+            requestSender = new RequestSender(requestFactory, payloadTransformer, Cookies, options);
 
             const promise = requestSender.sendRequest(url, { cache: true });
 

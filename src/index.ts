@@ -1,4 +1,5 @@
 export { default as Cache } from './cache';
+export { default as CookieReader } from './cookie-reader';
 export { default as createRequestSender } from './create-request-sender';
 export { default as createTimeout } from './create-timeout';
 export { default as RequestSender } from './request-sender';
