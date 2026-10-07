@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/bigcommerce/request-sender-js/compare/v1.2.6...v1.3.0) (2026-10-07)
+
+
+### Features
+
+* **request:** MSF-5250 Export CookieReader and move @types/js-cookie to devDependencies ([2cd1426](https://github.com/bigcommerce/request-sender-js/commit/2cd1426264a80e12cff576215c4007f46e89f2f9))
+
+
+### Bug Fixes
+
+* **request:** MSF-5250 Replace query-string with an internal query string helper ([40a3172](https://github.com/bigcommerce/request-sender-js/commit/40a31726b8d7556c065f1768b47f0e7d56cc4536))
+* **request:** MSF-5250 Upgrade js-cookie to 3 ([c6e79c4](https://github.com/bigcommerce/request-sender-js/commit/c6e79c4b6ab40af6f8f58580611adb8a460da1af))
+
 ### [1.2.6](https://github.com/bigcommerce/request-sender-js/compare/v1.2.5...v1.2.6) (2025-05-21)
 
 ### [1.2.5](https://github.com/bigcommerce/request-sender-js/compare/v1.2.4...v1.2.5) (2025-05-01)
